@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Kubernetes Observability Guide — Interactive</title>
+    <meta name="description" content="Interactive guide to Kubernetes monitoring and observability: metrics, logs, traces, tooling, and operations.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header class="app-header">
+      <div class="brand">
+        <span class="logo" aria-hidden="true">☸️</span>
+        <h1>Kubernetes Observability Guide</h1>
+      </div>
+      <div class="header-actions">
+        <div class="search">
+          <input id="searchInput" type="search" placeholder="Search the guide…" aria-label="Search the guide" autocomplete="off">
+          <button id="clearSearch" class="icon-btn" aria-label="Clear search" title="Clear search">✕</button>
+        </div>
+        <button id="themeToggle" class="btn" aria-label="Toggle dark mode" title="Toggle dark mode">🌙</button>
+        <a class="btn secondary" href="#/quiz" title="Take the quiz">Quiz</a>
+        <a class="btn secondary" href="#/wizard" title="Decision wizard">Wizard</a>
+        <a class="btn secondary" href="#/alerts" title="Alerts explorer">Alerts</a>
+      </div>
+    </header>
+
+    <div class="layout">
+      <aside class="sidebar" aria-label="Outline">
+        <nav id="toc" class="toc"></nav>
+      </aside>
+      <main id="content" class="content" tabindex="-1" aria-live="polite"></main>
+    </div>
+
+    <section id="searchResults" class="search-results" aria-live="polite" hidden></section>
+
+    <footer class="app-footer">
+      <div>Made for learning. Built as a static SPA for GitHub Pages.</div>
+      <div>
+        <a href="#/about">About</a>
+        <span>·</span>
+        <a href="#/quiz">Quiz</a>
+        <span>·</span>
+        <a href="#/wizard">Wizard</a>
+        <span>·</span>
+        <a href="#/alerts">Alerts</a>
+      </div>
+    </footer>
+
+    <script src="content.js"></script>
+    <script src="app.js"></script>
+  </body>
+  </html>
+
+
