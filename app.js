@@ -34,6 +34,13 @@
   function setTheme(mode) {
     document.documentElement.dataset.theme = mode;
     localStorage.setItem('theme', mode);
+
+    // Track theme changes in Datadog RUM
+    if (window.DD_RUM) {
+      window.DD_RUM.addAction('theme_change', {
+        theme: mode
+      });
+    }
   }
 
   function buildTOC() {
@@ -85,6 +92,15 @@
   function onSearch() {
     const q = searchEl.value.trim();
     if (!q) { resultsEl.hidden = true; resultsEl.innerHTML = ''; return; }
+
+    // Track search activity in Datadog RUM
+    if (window.DD_RUM) {
+      window.DD_RUM.addAction('search', {
+        query: q,
+        query_length: q.length
+      });
+    }
+
     const results = [];
     CONTENT.forEach(sec => {
       const txt = stripHtml(sec.html).toLowerCase();
@@ -95,6 +111,15 @@
         results.push({ id: sec.id, title: sec.title, snippet });
       }
     });
+
+    // Track search results in Datadog RUM
+    if (window.DD_RUM) {
+      window.DD_RUM.addAction('search_results', {
+        query: q,
+        results_count: results.length
+      });
+    }
+
     renderSearchResults(q, results);
   }
 
@@ -137,6 +162,16 @@
   function onRoute() {
     const hash = location.hash.slice(2); // remove #/
     const [route, param] = hash.split('/');
+
+    // Track SPA navigation in Datadog RUM
+    if (window.DD_RUM) {
+      window.DD_RUM.addAction('spa_navigation', {
+        route: route,
+        param: param,
+        path: location.hash
+      });
+    }
+
     // highlight in toc
     Array.from(tocEl.querySelectorAll('a')).forEach(a => a.classList.remove('active'));
     if (route === 'section') {
@@ -217,6 +252,15 @@
     const score = document.getElementById('score');
     score.style.display = 'inline-block';
     score.textContent = `Score: ${correct}/${QUIZ_QUESTIONS.length}`;
+
+    // Track quiz completion in Datadog RUM
+    if (window.DD_RUM) {
+      window.DD_RUM.addAction('quiz_completed', {
+        score: correct,
+        total_questions: QUIZ_QUESTIONS.length,
+        percentage: Math.round((correct / QUIZ_QUESTIONS.length) * 100)
+      });
+    }
   }
 
   function renderWizard() {
@@ -245,6 +289,14 @@
       const rationale = score >= 0 ? 'You prioritized speed-to-value, prebuilt dashboards, and reduced ops overhead.' : 'You prioritized flexibility, control, and lower licensing costs.';
       res.style.display = 'block';
       res.innerHTML = `<h4>Recommendation: ${recommendation}</h4><p>${rationale}</p><p class="chip">Score: ${score}</p>`;
+
+      // Track decision wizard completion in Datadog RUM
+      if (window.DD_RUM) {
+        window.DD_RUM.addAction('decision_wizard_completed', {
+          score: score,
+          recommendation: recommendation
+        });
+      }
     });
     contentEl.appendChild(action);
     resultsEl.hidden = true;
